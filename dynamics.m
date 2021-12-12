@@ -1,7 +1,7 @@
 % x1 y1 z1 x2 y2 z2 x3 y3 z3 X Y Z
 function [d2,lambda] = dynamics(t,x1,y1,z1,x2,y2,z2,x3,y3,z3,X,Y,Z,...
                                      dx1,dy1,dz1,dx2,dy2,dz2,dx3,dy3,dz3,dX,dY,dZ,...
-                                     dzc1,dzc2,dzc3,const)
+                                     d2z1,d2z2,d2z3,const)
 mc = const.mc; M = const.M; g = const.g;
 E1x = const.E1x; E2x = const.E2x; E3x = const.E3x;
 E1y = const.E1y; E2y = const.E2y; E3y = const.E3y;
@@ -17,7 +17,7 @@ a_matrix = [1 0 0 0 0 0 0 0 0 -X+x1-E1x 0         0;
             0 0 0 0 0 0 0 0 0 X-x1+E1x  X-x2+E2x  X-x3+E3x;
             0 0 0 0 0 0 0 0 0 Y-y1+E1y  Y-y2+E2y  Y-y3+E3y;
             0 0 0 0 0 0 0 0 0 Z-z1      Z-z2      Z-z3     ];
-b = [0 0 -dzc1 0 0 -dzc2 0 0 -dzc3 0 0 0]';
+dbdt = [0 0 -d2z1 0 0 -d2z2 0 0 -d2z3 0 0 0]';
 M_matrix = [mc 0  0  0  0  0  0  0  0  0  0  0;
             0  mc 0  0  0  0  0  0  0  0  0  0;
             0  0  mc 0  0  0  0  0  0  0  0  0;
@@ -57,6 +57,6 @@ dadt = [0 0 0 0 0 0 0 0 0 -dX+dx1  0       0;
 dyn_matrix = [M_matrix     -a_matrix';
               -a_matrix    zeros(12,12)];
 q_dot = [dx1,dy1,dz1,dx2,dy2,dz2,dx3,dy3,dz3,dX,dY,dZ]';
-advance = dyn_matrix\[F;dadt*q_dot+b];
+advance = dyn_matrix\[F;dadt*q_dot+dbdt];
 d2 = advance(1:12); lambda = advance(13:24);
 end
