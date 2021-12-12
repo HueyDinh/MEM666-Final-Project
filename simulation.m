@@ -97,6 +97,7 @@ plot(t_series,all_z3,"-.","DisplayName","z3 Command")
 legend("Location","best");
 xlabel("Time (s)");
 ylabel("Z Displacement (m)")
+hold off;
 
 % Control Force
 figure;
@@ -108,6 +109,7 @@ plot(t_series,f3,"DisplayName","F3")
 xlabel("Time (s)")
 ylabel("Force (N)")
 legend;
+hold off;
 % Frame Shaking
 figure;
 plot(s1xy_T(1,:),s1xy_T(2,:),"DisplayName","Rail 1")
@@ -123,3 +125,13 @@ figure;
 plot(s3xy_T(1,:),s3xy_T(2,:),"DisplayName","Rail 3")
 title("Cartridge 3 Frame Shake")
 xlabel("Radial (N)"); ylabel("Tangential (N)")
+
+figure;
+plot(t_series,s1xy_T(2,:),"DisplayName","Rail 1");
+hold on;
+plot(t_series,s2xy_T(2,:),"DisplayName","Rail 2");
+plot(t_series,s3xy_T(2,:),"DisplayName","Rail 3");
+title("Tangential Shaking Force Versus Time");
+xlabel("Time (s)");
+ylabel("Force (N)")
+legend("Location","best")
